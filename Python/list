@@ -1,4 +1,4 @@
-<b> 어려운 점 <b>
+어려운 점
 a = list(map(int, input().split()) 
 a = map(int, input().split()
 
