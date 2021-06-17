@@ -1,1 +1,13 @@
+<b> 어려운 점 <b>
+a = list(map(int, input().split()) 
+a = map(int, input().split()
+
+이 두가지의 차이는 무엇일까?
+list는 한 변수가 다양한 원소를 값으로 받는다.
+
+input().split()은 문자열 리스트이다. 
+map을 통해 각 원소에 int를 적용해준다.
+
+![022019](https://user-images.githubusercontent.com/85469681/122398347-c15b9680-cfb4-11eb-9feb-c7c826d7c12a.png)
+출처(https://dojang.io/mod/page/view.php?id=2286)
 
