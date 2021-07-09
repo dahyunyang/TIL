@@ -5,5 +5,7 @@
 ```
   yarn add @material-ui/core @material-ui/icons
 ```
-2. yarn 패키지 설치
-
+2. 새 프로젝트 만들기
+```
+  yarn create react-app 폴더이름
+```
