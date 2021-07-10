@@ -69,9 +69,9 @@ const GridBox = styled.div`
     width:${(props) => props.width};
     height: 100%;
     box-sizing: border-box; //선굵기까지 포함함
-    ${(props) => (props.padding? `${props.padding}`:"")}
-    ${(props) => (props.margin? `${props.margin}`: "")}
-    ${(props) => (props.bg? `${props.bg}`: "")}
+    ${(props) => (props.padding? `padding: ${props.padding}`:"")}
+    ${(props) => (props.margin? `margin: ${props.margin}`: "")}
+    ${(props) => (props.bg? `bg: ${props.bg}`: "")}
     ${(props) => props.is_flex ? `display:flex; align-items:center; justify-content: space-between;` :""}
 `;
 
