@@ -82,17 +82,23 @@ export default Grid;
 원래라면
 ```
 return(
-        <React.Fragment {...props}>
-            {children}
+        <React.Fragment>
+            <GridBox {...props}>
+                {children}
+            </GridBox>
         </React.Fragment>
     )
 ```
 
 를 사용하겠지만
 ```
-<React.Fragment {...styles}>
-            {children}
-</React.Fragment>
+return(
+        <React.Fragment>
+            <GridBox {...styles}>
+                {children}
+            </GridBox>
+        </React.Fragment>
+    )
 ```
 을 사용한 이유는 children이 style 속성이 아니기 때문에 분리해준다.
 
