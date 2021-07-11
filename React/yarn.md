@@ -16,9 +16,15 @@
   yarn add react-router-dom 
 ```
 
-3. 스타일컴포넌트 설치
+4. 스타일컴포넌트 설치
 (공통된 컴포넌트를 만들어서 프로젝트 안에서 공유)
 
 ```
   yarn create react-app 폴더이름
+```
+
+5. 리덕스 패키지 설치
+
+```
+  yarn add redux react-redux
 ```
