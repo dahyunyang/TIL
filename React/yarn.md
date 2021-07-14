@@ -28,3 +28,8 @@
 ```
   yarn add redux react-redux
 ```
+6. 모먼트 설치(시간, 날짜 편하게 사용)
+
+```
+  yarn add moment
+```
