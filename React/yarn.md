@@ -20,7 +20,7 @@
 (공통된 컴포넌트를 만들어서 프로젝트 안에서 공유)
 
 ```
-  yarn create react-app 폴더이름
+  yarn add styled-components
 ```
 
 5. 리덕스 패키지 설치
@@ -32,4 +32,10 @@
 
 ```
   yarn add moment
+```
+
+7. 파이어베이스 패키지 설치
+
+```
+  yarn add firebase
 ```
