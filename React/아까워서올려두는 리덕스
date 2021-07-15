@@ -1,0 +1,140 @@
+import { createAction, handleActions } from "redux-actions"; //액션을 편하게 만드는것
+import { produce } from "immer";
+import { firestore } from "../../shared/firebase";
+
+const postDB = firestore.collection("post"); //콜렉션 이름: post
+
+//액션 스테이트 정의
+const SET_POST = "SET_POST";
+const ADD_POST = "ADD_POST";
+
+//액션 생성 함수 (액션 : 액션객체를 만들어주는 것)
+//action creators: 정보를 전달한다. setPost는 포스트의 목록을 불러오고, addPost는 post를 추가한다.
+//타입이랑 리스트를 받아옴.
+const setPost = createAction(SET_POST, (post_list) => ({ post_list }));
+const addPost = createAction(ADD_POST, (post) => ({ post }));
+
+//initialState
+const initialState = {
+  list: [],
+};
+
+//게시글에 어떤 정보가 있어야 하는지 만들어준다.
+const initialPost = {
+  // id: 0, // id를 추가했음
+  // name: "dahyun",
+  // title: "Cat",
+  // contents: "the world's cuttest cat ever",
+  // post_cnt: 0,
+};
+
+//리듀서 - FB에서 포스트 가지고 오기
+export const getPostFB = () => {
+  return function (dispatch, getState, { history }) {
+    // const postDB = firestore.collection("post"); //콜렉션 이름: post
+    // let post_list = [];
+
+    postDB.get().then((docs) => {
+      let post_list = [];
+      docs.forEach((doc) => {
+        console.log(doc.id, doc.data()); //확인해보기 - 먼저 export하고! PostList랑 연결하기
+        if (doc.exists){
+          post_list = [...post_list, {id: doc.id, ...doc.data()}];
+        }
+        // let _post = {
+        //   id: doc.id,
+        //   ...doc.data(),
+        // };
+
+        // let post = {
+        //   id: doc.id,
+        //   name: _post.name,
+        //   title: _post.title,
+        //   contents: _post.contents,
+        //   post_cnt: _post.post_cnt,
+        // };
+
+        // post_list.push(post);
+
+        // dispatch(setPost(post_list));
+      });
+      console.log(post_list);
+      dispatch(setPost(post_list));
+    });
+  };
+};
+
+const addPostFB = (contents = "" , name="", title="") => {
+  return function (dispatch, getState, { history }) {
+    //user리덕스 없어서 안넣음 일단 포스트만!
+    const postDB = firestore.collection("post");
+
+    const _post = {
+      ...initialPost,
+      contents: contents,
+      name: name,
+      title: title,
+      
+    };
+
+    // console.log(..._post);
+    
+
+    postDB
+      .add({ ... _post })
+      .then((doc) => {
+        let post = {
+          ..._post, id: doc.id};
+        dispatch(addPost(post));
+        history.push('/');
+      })//추가된 것 
+      .catch((err) => {
+        console.log("추가안됩니다", err);
+      }); //에러방지
+  };
+};
+
+//리듀서 작성하기(immer써서불변성 유지)
+//immer는 A가 있으면 A'를 만든다. draft(원본값) 2주차 8-3
+export default handleActions(
+  {
+    [SET_POST]: (state, action) =>
+      produce(state, (draft) => {
+        draft.list.push(...action.payload.post_list);
+
+        // reduce(누적된 값, 현재값), -1은 없을때!
+        draft.list = draft.list.reduce((acc,cur) => {
+          if(acc.findIndex(a => a.id === cur.id) === -1){
+            return [ ...acc, cur];
+          }else{
+            acc[acc.findIndex(a => a.id === cur.id)] = cur;
+            return acc; // 중복추가 안하고 넣어주기;
+          }
+        }, []);
+      }),
+
+    [ADD_POST]: (state, action) =>
+      produce(state, (draft) => {
+        draft.list.unshift(action.payload.post); //unshift = 앞에 넣어주기
+      }),
+  },
+  initialState
+);
+
+//export actions
+const actionCreators = {
+  setPost,
+  addPost,
+  getPostFB,
+  addPostFB,
+};
+
+export { actionCreators };
+
+// const actionCreators
+
+// 기능이 동작하지 않을때 -> 화면에서 어떻게 동작하면 오류가 났는지 명확히 하기(ex. 수정 + 오류메세지 읽기)
+// onClick에서 에러가 난경우, 코드를 보러가기(컴포넌트) -> 데이터를 확실히 넘겼는지 등, 문제가 없음을 확인
+// onClick과 연결된 editFB가 있을 경우, 미들웨어 코드/파이어스토어등 확인
+//리덕스에 저장된 data를 바꾼 것. action에 맞는 reducer코드 보러가기 ! 이렇게 하나하나 거슬러서 올라가기!
+// 여러 오류가 났을 경우에 여러개 보러가지 말고, 한 개를 확실히 해결하고 다음 오류 찾기. 
