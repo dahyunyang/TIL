@@ -39,3 +39,13 @@
 ```
   yarn add firebase
 ```
+
+8. formik(유효성검사)
+```
+  yarn add formik
+```
+
+9. yup(유효성검사)
+```
+  yarn add yup react-yup
+```
