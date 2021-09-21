@@ -1,0 +1,6 @@
+For Mac
+
+1. 터미널을 켠다
+2. cd Documents (cd: 디렉토리 변경 - Document 폴더 안에 들어간 상태가 된다.)
+3. mkdir 폴더명
+4. code 폴더명 (비주얼 스튜디오에서 열림)
